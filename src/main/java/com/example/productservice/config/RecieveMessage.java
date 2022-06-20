@@ -24,7 +24,6 @@ public class RecieveMessage {
     RabbitTemplate rabbitTemplate;
 
     @RabbitListener(queues = {QUEUE_INVENTORY})
-    @Transactional
     public void getMessage(String message) {
         List<Product> list = new ArrayList<>();
         Gson gson = new Gson();
