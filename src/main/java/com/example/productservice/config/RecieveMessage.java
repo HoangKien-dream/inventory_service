@@ -15,39 +15,20 @@ import java.util.List;
 
 import static com.example.productservice.config.MessageConfig.QUEUE_INVENTORY;
 import static com.example.productservice.config.MessageConfig.QUEUE_PAY;
+import static com.example.productservice.enums.Status.PaymentStatus.PENDING;
 
 @Component
 public class RecieveMessage {
     @Autowired
-    RepositoryProduct repositoryProduct;
-    @Autowired
-    RabbitTemplate rabbitTemplate;
-
+    ConsumerService consumerService;
     @RabbitListener(queues = {QUEUE_INVENTORY})
-    @Transactional
-    public void getMessage(String message) {
-        List<Product> list = new ArrayList<>();
-        Gson gson = new Gson();
-        OrderEvent orderEvent = gson.fromJson(message, OrderEvent.class);
-        orderEvent.orderDetailEvents.forEach(orderDetailEvent -> {
-            Product product = repositoryProduct.findById(orderDetailEvent.getProductId()).orElse(null);
-            if (orderDetailEvent.getQuantity() <= product.getQuantity()) {
-                int quantity = product.getQuantity() - orderDetailEvent.getQuantity();
-                product.setQuantity(quantity);
-                list.add(product);
-            } else {
-                orderEvent.setStatusInventory(Status.InventoryStatus.OUT_OF_STOCK.name());
-                rabbitTemplate.convertAndSend(MessageConfig.DIRECT_EXCHANGE, MessageConfig.DIRECT_ROUTING_KEY_ORDER, orderEvent);
-                return;
-            }
-        });
-        try {
-//            repositoryProduct.saveAll(list);
-            orderEvent.setStatusOrder(Status.InventoryStatus.DONE.name());
-//            rabbitTemplate.convertAndSend(MessageConfig.DIRECT_EXCHANGE, MessageConfig.DIRECT_ROUTING_KEY_ORDER, orderEvent);
-        } catch (Exception e) {
-            orderEvent.setStatusOrder(Status.InventoryStatus.PENDING.name());
-//            rabbitTemplate.convertAndSend(MessageConfig.DIRECT_EXCHANGE, MessageConfig.DIRECT_ROUTING_KEY_ORDER, orderEvent);
-        }
+    public void getMessage(OrderEvent orderEvent) {
+        orderEvent.setQueueName("QUEUE_INVENTORY");
+      if (orderEvent.getStatusInventory().equals("PENDING")){
+          consumerService.getMessage(orderEvent);
+      }
+      if (orderEvent.getStatusPayment().equals(Status.PaymentStatus.NOT_ENOUGH_BALANCE.name())){
+          consumerService.getMessageReturn(orderEvent);
+      }
     }
 }

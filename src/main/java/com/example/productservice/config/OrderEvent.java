@@ -18,4 +18,5 @@ public class OrderEvent {
     public String statusInventory;
     public String statusOrder;
     public String statusPayment;
+    public String queueName;
 }
