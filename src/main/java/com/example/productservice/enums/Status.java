@@ -10,6 +10,10 @@ public enum Status {
         PENDING, NOT_ENOUGH_BALANCE, DONE, REFUND, REFUNDED
     }
 
+    public enum WareHouseStatus{
+        IMPORT,EXPORT
+    }
+
     public enum InventoryStatus {
         PENDING, OUT_OF_STOCK, DONE, RETURN, RETURNED
     }
