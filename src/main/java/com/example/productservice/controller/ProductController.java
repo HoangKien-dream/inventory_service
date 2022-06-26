@@ -34,6 +34,7 @@ public class ProductController {
             @RequestParam(defaultValue = "") String startDate,
             @RequestParam(defaultValue = "") String endDate,
             @RequestParam(defaultValue = "1") int status) {
+
         Specification<Product> specification = Specification.where(null);
         if (keyword != null && keyword.length() > 0) {
             SearchCriteria searchCriteria
