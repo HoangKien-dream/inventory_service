@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
-
+    @PreAuthorize("hasAuthority('list_product')")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> findAll(
             @RequestParam(defaultValue = "1") int page,

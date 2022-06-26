@@ -3,6 +3,7 @@ package com.example.productservice.configAuth;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.productservice.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,10 @@ import static java.util.Arrays.stream;
 // this filter will run first with all request
 // here we get the token from user then assign role for them
 public class ApiAuthorizationFilter extends OncePerRequestFilter {
+
+
+
+    @Autowired
     private static final String[] IGNORE_PATHS = {"/api/v1/login", "/api/v1/register", "/api/v1/token/refresh"};
 
     @Override

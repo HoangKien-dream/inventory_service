@@ -35,8 +35,8 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
                 new com.example.productservice.configAuth.ApiAuthenticationFilter(authenticationManagerBean());
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/v1/register**", "/api/v1/login**", "/api/v1/token/refresh**").permitAll();
-        http.authorizeRequests().antMatchers("/api/v1/product/**").hasAnyAuthority("User");
+//        http.authorizeRequests().antMatchers("/api/v1/register**", "/api/v1/login**", "/api/v1/token/refresh**").permitAll();
+//        http.authorizeRequests().antMatchers("/api/v1/product/**").hasAnyAuthority("User");
         //add requests path for more role here
 //        http.authorizeRequests().antMatchers("/api/v1/order/**").hasAnyAuthority("admin");
 //        http.authorizeRequests().antMatchers("/api/add-role/**").hasAnyAuthority("admin");
