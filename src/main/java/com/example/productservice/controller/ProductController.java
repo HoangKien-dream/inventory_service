@@ -72,6 +72,29 @@ public class ProductController {
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasAuthority('list_product')")
+    @RequestMapping(method = RequestMethod.POST)
+    public Product save(@RequestBody Product product){
+       return productService.save(product);
+    }
+
+    @RequestMapping(path = "{id}",method =RequestMethod.GET)
+    public Product findById(@PathVariable int id){
+        return productService.findById(id);
+    }
+
+    @PreAuthorize("hasAuthority('updated_product')")
+    @RequestMapping(path = "{id}",method = RequestMethod.PUT)
+    public Product updated (@PathVariable int id, @RequestBody Product product){
+        return productService.updated(id,product);
+    }
+
+    @PreAuthorize("hasAuthority('delete_product')")
+    @RequestMapping(path = "{id}",method = RequestMethod.DELETE)
+    public boolean isDelete(@PathVariable int id){
+        return productService.isDelete(id);
+    }
+
 //    @Autowired
 //    private RabbitTemplate template;
 //    private static List<Product> products ;
