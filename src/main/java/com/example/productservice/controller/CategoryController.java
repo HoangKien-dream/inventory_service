@@ -3,6 +3,7 @@ package com.example.productservice.controller;
 import com.example.productservice.entity.Category;
 import com.example.productservice.repository.RepositoryCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "api/v1/category")
 public class CategoryController {
@@ -27,5 +29,10 @@ public class CategoryController {
     @RequestMapping(method = RequestMethod.POST)
     public List<Category> saveAll(){
         return repositoryCategory.saveAll(categoryList);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Category> findAll(){
+        return repositoryCategory.findAll();
     }
 }
