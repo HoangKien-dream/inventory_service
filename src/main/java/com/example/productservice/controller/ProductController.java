@@ -33,6 +33,8 @@ public class ProductController {
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int category,
             @RequestParam(defaultValue = "") String startDate,
+            @RequestParam(defaultValue = "0") int startPrice,
+            @RequestParam(defaultValue = "0") int endPrice,
             @RequestParam(defaultValue = "") String endDate,
             @RequestParam(defaultValue = "1") int status) {
 
@@ -52,6 +54,18 @@ public class ProductController {
         if (category != 0){
             SearchCriteria searchCriteria
                     = new SearchCriteria("categoryId",SearchCriteriaOperator.EQUALS,category);
+            ProductSpecification filter = new ProductSpecification(searchCriteria);
+            specification = specification.and(filter);
+        }
+        if (startPrice != 0){
+            SearchCriteria searchCriteria
+                    = new SearchCriteria("price",SearchCriteriaOperator.GREATER_THAN_OR_EQUALS,startPrice);
+            ProductSpecification filter = new ProductSpecification(searchCriteria);
+            specification = specification.and(filter);
+        }
+        if (endPrice != 0){
+            SearchCriteria searchCriteria
+                    = new SearchCriteria("price",SearchCriteriaOperator.LESS_THAN_OR_EQUALS,endPrice);
             ProductSpecification filter = new ProductSpecification(searchCriteria);
             specification = specification.and(filter);
         }
